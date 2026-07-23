@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import { ASSET_KEYS, buildCityLayout } from '../cityLayout'
 import { depthFor, isoToScreen } from '../iso'
 
-const MAP_SIZE = 24
-const WORLD_PADDING = 1100
+const MAP_SIZE = 20
+const WORLD_PADDING = 1000
 
 export class CityScene extends Phaser.Scene {
   private isDragging = false
@@ -84,13 +84,13 @@ export class CityScene extends Phaser.Scene {
     this.setupCameraControls(worldW, worldH)
 
     const center = isoToScreen(MAP_SIZE / 2, MAP_SIZE / 2, offsetX, offsetY)
-    this.cameras.main.centerOn(center.x, center.y + 40)
-    this.cameras.main.setZoom(0.48)
+    this.cameras.main.centerOn(center.x, center.y + 60)
+    this.cameras.main.setZoom(0.62)
 
     this.tweens.add({
       targets: this.cameras.main,
-      zoom: 0.56,
-      duration: 2400,
+      zoom: 0.7,
+      duration: 2200,
       ease: 'Sine.easeOut',
     })
   }
