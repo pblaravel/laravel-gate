@@ -8,134 +8,119 @@ export type CitySprite = {
   flipX?: boolean
 }
 
-/**
- * Desert city matching the modular asset set.
- * Walls: only `wall_banner`, original facing (N/E native, S/W flipped),
- * step 2 with enough scale so segments overlap into a solid ring.
- */
+/** Fortified desert city — continuous walls, one south gate, moderate housing. */
 export function buildCityLayout(size = 20): CitySprite[] {
   const items: CitySprite[] = []
   const last = size - 1
-  const mid = 10
 
   const push = (key: string, col: number, row: number, extras: Partial<CitySprite> = {}) => {
     items.push({ key, col, row, ...extras })
   }
 
-  const inPlaza = (col: number, row: number) =>
-    col >= 8 && col <= 11 && row >= 8 && row <= 11
-
-  const isRoad = (col: number, row: number) =>
-    col === 9 ||
-    col === 10 ||
-    row === 9 ||
-    row === 10 ||
-    (row >= last - 3 && col >= 8 && col <= 11)
-
+  // Ground
   for (let row = 0; row < size; row += 1) {
     for (let col = 0; col < size; col += 1) {
+      const inPlaza = col >= 8 && col <= 11 && row >= 8 && row <= 11
+      const onRoad =
+        col === 9 ||
+        col === 10 ||
+        row === 9 ||
+        row === 10 ||
+        (row >= last - 3 && col >= 8 && col <= 11)
+
       let key = 'tile_a'
-      if (inPlaza(col, row)) key = 'mosaic'
-      else if (isRoad(col, row)) key = 'tile_b'
+      if (inPlaza) key = 'mosaic'
+      else if (onRoad) key = 'tile_b'
       else key = (col + row) % 3 === 0 ? 'tile_c' : 'tile_a'
-      push(key, col, row, { scale: 1, originY: 0.5, depthBias: -1000 })
+
+      push(key, col, row, { scale: 0.92, originY: 0.5, depthBias: -1000 })
     }
   }
 
-  // Perimeter walls — match original flip rules from the working baseline.
-  // wall_banner is a double-length piece; scale 0.5 + step 2 overlaps ends.
-  const WALL_SCALE = 0.5
-  const WALL_Y = 0.86
+  // Straight perimeter — only wall_banner (same length) so ends meet.
+  // Facing from the original layout: N/E native, S/W flipX.
+  const wallScale = 0.5
+  const wallY = 0.85
+  for (let i = 1; i < last; i += 2) {
+    push('wall_banner', i, 0, { scale: wallScale, originY: wallY })
+    push('wall_banner', last, i, { scale: wallScale, originY: wallY })
+    push('wall_banner', 0, i, { scale: wallScale, originY: wallY, flipX: true })
 
-  for (let i = 2; i <= last - 2; i += 2) {
-    push('wall_banner', i, 0, { scale: WALL_SCALE, originY: WALL_Y }) // N
-    push('wall_banner', last, i, { scale: WALL_SCALE, originY: WALL_Y }) // E
-    push('wall_banner', 0, i, { scale: WALL_SCALE, originY: WALL_Y, flipX: true }) // W
-
-    // S — open for gateway around mid
-    if (i <= 6 || i >= 14) {
-      push('wall_banner', i, last, {
-        scale: WALL_SCALE,
-        originY: WALL_Y,
-        flipX: true,
-      })
+    // South: skip cells occupied by the gateway
+    if (i < 8 || i > 12) {
+      push('wall_banner', i, last, { scale: wallScale, originY: wallY, flipX: true })
     }
   }
 
-  // Bridge pieces that meet the gateway
-  push('wall_banner', 6, last, { scale: WALL_SCALE, originY: WALL_Y, flipX: true, depthBias: 8 })
-  push('wall_banner', 14, last, { scale: WALL_SCALE, originY: WALL_Y, flipX: true, depthBias: 8 })
-
-  const towers: Array<[string, number, number]> = [
+  // Corner + mid towers (join points)
+  ;[
     ['tower_tall', 0, 0],
     ['tower_spiral', last, 0],
     ['tower_mid', 0, last],
     ['tower_short', last, last],
-    ['tower_mid', 6, 0],
+    ['tower_mid', 5, 0],
     ['tower_short', 14, 0],
-    ['tower_spiral', last, 6],
+    ['tower_spiral', last, 5],
     ['tower_mid', last, 14],
-    ['tower_short', 6, last],
+    ['tower_short', 5, last],
     ['tower_tall', 14, last],
-    ['tower_mid', 0, 6],
+    ['tower_mid', 0, 5],
     ['tower_spiral', 0, 14],
-  ]
-  towers.forEach(([key, col, row]) => {
-    push(key, col, row, { scale: 0.72, originY: 0.92, depthBias: 30 })
-  })
-
-  // Gateway on south edge, facing the viewer (asset is already south-facing)
-  push('gateway', mid, last, { scale: 0.4, originY: 0.92, depthBias: 65 })
-
-  // Palace NE
-  push('house_wide', 14, 3, { scale: 0.68, originY: 0.9, depthBias: 22 })
-  push('tower_tall', 15, 2, { scale: 0.76, originY: 0.92, depthBias: 34 })
-  push('tower_spiral', 13, 2, { scale: 0.66, originY: 0.92, depthBias: 30 })
-  push('house_a', 16, 4, { scale: 0.55, originY: 0.9 })
-  push('banner_a', 13, 3, { scale: 0.5, originY: 0.95 })
-
-  // Plaza
-  push('fountain', 10, 10, { scale: 0.7, originY: 0.88, depthBias: 16 })
-  push('mosaic', 9, 9, { scale: 1.05, originY: 0.5, depthBias: -900 })
-  push('well', 8, 10, { scale: 0.5, originY: 0.88 })
-  push('brazier', 11, 9, { scale: 0.52, originY: 0.88 })
-  push('brazier', 9, 11, { scale: 0.52, originY: 0.88 })
-
-  ;[
-    ['stall_a', 8, 9, 0.66],
-    ['stall_b', 8, 11, 0.66],
-    ['stall_c', 11, 8, 0.66],
-    ['stall_a', 11, 11, 0.66],
-    ['pottery', 10, 8, 0.72],
-    ['barrels', 7, 10, 0.5],
-    ['crates', 12, 10, 0.5],
-    ['stall_c', 9, 16, 0.6],
-    ['stall_a', 11, 16, 0.6],
-  ].forEach(([key, col, row, scale]) => {
+  ].forEach(([key, col, row]) => {
     push(String(key), Number(col), Number(row), {
-      scale: Number(scale),
-      originY: 0.88,
+      scale: 0.7,
+      originY: 0.92,
+      depthBias: 28,
     })
   })
 
-  // Sparse housing
+  // Main gateway — south approach (same placement as original: one row inside edge)
+  push('gateway', 10, last - 1, { scale: 0.55, originY: 0.9, depthBias: 45 })
+
+  // Palace / landmark (north)
+  push('house_wide', 10, 3, { scale: 0.7, originY: 0.9 })
+  push('house_b', 8, 3, { scale: 0.58, originY: 0.9 })
+  push('house_a', 12, 3, { scale: 0.58, originY: 0.9 })
+  push('tower_tall', 10, 2, { scale: 0.75, originY: 0.92, depthBias: 20 })
+  push('tower_spiral', 9, 2, { scale: 0.65, originY: 0.92 })
+  push('tower_mid', 11, 2, { scale: 0.65, originY: 0.92 })
+
+  // Residential — moderate, four corners (fewer than before)
   const houses: Array<[string, number, number, number]> = [
-    ['house_a', 3, 3, 0.55],
-    ['house_small', 5, 4, 0.66],
+    ['house_a', 3, 3, 0.56],
+    ['house_small', 5, 4, 0.68],
     ['house_b', 3, 6, 0.54],
-    ['house_b', 14, 5, 0.54],
-    ['house_small', 16, 6, 0.64],
-    ['house_a', 15, 7, 0.52],
-    ['house_a', 3, 12, 0.54],
-    ['house_b', 5, 14, 0.52],
-    ['house_small', 3, 15, 0.64],
-    ['house_b', 14, 12, 0.54],
-    ['house_a', 16, 14, 0.52],
-    ['house_small', 15, 15, 0.64],
+    ['house_small', 15, 3, 0.66],
+    ['house_a', 17, 4, 0.54],
+    ['house_b', 15, 6, 0.54],
+    ['house_a', 3, 13, 0.54],
+    ['house_b', 5, 15, 0.52],
+    ['house_small', 4, 16, 0.64],
+    ['house_a', 15, 13, 0.54],
+    ['house_b', 17, 14, 0.52],
+    ['house_small', 15, 16, 0.64],
   ]
   houses.forEach(([key, col, row, scale]) => {
     push(key, col, row, { scale, originY: 0.9 })
   })
+
+  // Market near plaza + south road
+  push('stall_a', 8, 9, { scale: 0.68, originY: 0.88 })
+  push('stall_b', 11, 8, { scale: 0.68, originY: 0.88 })
+  push('stall_c', 11, 11, { scale: 0.68, originY: 0.88 })
+  push('stall_a', 8, 11, { scale: 0.65, originY: 0.88 })
+  push('barrels', 7, 10, { scale: 0.52, originY: 0.85 })
+  push('crates', 12, 10, { scale: 0.52, originY: 0.85 })
+  push('pottery', 10, 8, { scale: 0.78, originY: 0.85 })
+  push('stall_b', 9, 16, { scale: 0.62, originY: 0.88 })
+  push('stall_c', 11, 16, { scale: 0.62, originY: 0.88 })
+
+  // Plaza
+  push('fountain', 10, 10, { scale: 0.72, originY: 0.88, depthBias: 15 })
+  push('mosaic', 9, 9, { scale: 1.05, originY: 0.5, depthBias: -900 })
+  push('well', 8, 10, { scale: 0.55, originY: 0.88 })
+  push('brazier', 11, 9, { scale: 0.55, originY: 0.88 })
+  push('brazier', 9, 11, { scale: 0.55, originY: 0.88 })
 
   ;[
     [9, 4],
@@ -148,41 +133,39 @@ export function buildCityLayout(size = 20): CitySprite[] {
     [11, 16],
   ].forEach(([col, row], i) => {
     push(`banner_${['a', 'b', 'c', 'd'][i % 4]}`, col, row, {
-      scale: 0.5,
+      scale: 0.52,
       originY: 0.95,
     })
   })
 
   ;[
     [8, 8],
-    [11, 8],
-    [8, 11],
-    [11, 11],
+    [12, 8],
+    [8, 12],
+    [12, 12],
   ].forEach(([col, row], i) => {
     push(`lamp_${['a', 'b', 'c', 'd'][i % 4]}`, col, row, {
-      scale: 0.46,
+      scale: 0.48,
       originY: 0.95,
-      depthBias: 8,
     })
   })
 
   ;[
     [2, 2],
+    [4, 1],
     [17, 2],
+    [18, 4],
     [2, 17],
+    [4, 18],
     [17, 17],
-    [7, 3],
-    [12, 3],
-    [4, 9],
-    [15, 9],
-    [8, last + 1],
-    [12, last + 1],
+    [18, 15],
+    [7, 4],
+    [13, 4],
+    [6, 9],
+    [14, 9],
   ].forEach(([col, row], i) => {
-    push(`tree_${i % 4}`, col, row, { scale: 0.68, originY: 0.95, depthBias: 10 })
+    push(`tree_${i % 4}`, col, row, { scale: 0.7, originY: 0.95 })
   })
-
-  push('barrels', 9, last + 1, { scale: 0.48, originY: 0.85 })
-  push('crates', 11, last + 1, { scale: 0.48, originY: 0.85 })
 
   return items
 }
@@ -190,6 +173,7 @@ export function buildCityLayout(size = 20): CitySprite[] {
 export const ASSET_KEYS = [
   'gateway',
   'wall_banner',
+  'wall_plain',
   'tower_tall',
   'tower_mid',
   'tower_spiral',
