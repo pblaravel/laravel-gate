@@ -25,10 +25,16 @@ export function buildCityLayout(size = 24): CitySprite[] {
   const last = size - 1
   const occupied = new Set<string>()
 
-  const push = (key: string, col: number, row: number, extras: Partial<CitySprite> = {}) => {
+  const push = (
+    key: string,
+    col: number,
+    row: number,
+    extras: Partial<CitySprite> = {},
+    claim = true,
+  ) => {
     if (col < -2 || row < -2 || col > last + 2 || row > last + 2) return
     items.push({ key, col, row, ...extras })
-    if (col >= 0 && row >= 0 && col <= last && row <= last) {
+    if (claim && col >= 0 && row >= 0 && col <= last && row <= last) {
       occupied.add(occupiedKey(col, row))
     }
   }
@@ -61,29 +67,53 @@ export function buildCityLayout(size = 24): CitySprite[] {
       else if (isRoad(col, row)) key = 'tile_b'
       else key = (col + row) % 3 === 0 ? 'tile_c' : 'tile_a'
 
-      push(key, col, row, { scale: 0.95, originY: 0.5, depthBias: -1000 })
+      // Ground must not claim cells — otherwise houses never place
+      push(key, col, row, { scale: 0.95, originY: 0.5, depthBias: -1000 }, false)
     }
   }
 
-  // Continuous perimeter walls
+  // Continuous perimeter walls (only south edge opens for the main gateway)
+  const wallOpts = { scale: 0.4, originY: 0.88 as number }
   for (let i = 1; i < last; i += 1) {
-    if (i >= 10 && i <= 13) continue // south gate opening
-    push(WALL_KEYS[i % WALL_KEYS.length], i, 0, { scale: 0.38, originY: 0.88 })
-    push(WALL_KEYS[(i + 1) % WALL_KEYS.length], last, i, { scale: 0.38, originY: 0.88 })
-    push(WALL_KEYS[(i + 2) % WALL_KEYS.length], i, last, {
-      scale: 0.38,
-      originY: 0.88,
-      flipX: true,
-    })
-    push(WALL_KEYS[i % WALL_KEYS.length], 0, i, {
-      scale: 0.38,
-      originY: 0.88,
-      flipX: true,
-    })
+    // North edge (row = 0)
+    push(WALL_KEYS[i % WALL_KEYS.length], i, 0, wallOpts)
     mark(i, 0)
+
+    // East edge (col = last)
+    push(WALL_KEYS[(i + 1) % WALL_KEYS.length], last, i, wallOpts)
     mark(last, i)
-    mark(i, last)
+
+    // West edge (col = 0)
+    push(WALL_KEYS[(i + 2) % WALL_KEYS.length], 0, i, {
+      ...wallOpts,
+      flipX: true,
+    })
     mark(0, i)
+
+    // South edge (row = last) — leave opening for gateway
+    const southGate = i >= 10 && i <= 13
+    if (!southGate) {
+      push(WALL_KEYS[i % WALL_KEYS.length], i, last, {
+        ...wallOpts,
+        flipX: true,
+      })
+      mark(i, last)
+    }
+  }
+
+  // Extra overlapping wall pieces so segments visually merge
+  for (let i = 2; i < last; i += 2) {
+    push('wall_plain', i, 0, { scale: 0.36, originY: 0.88, depthBias: -5 })
+    push('wall_plain', last, i, { scale: 0.36, originY: 0.88, depthBias: -5 })
+    push('wall_plain', 0, i, { scale: 0.36, originY: 0.88, flipX: true, depthBias: -5 })
+    if (i < 10 || i > 13) {
+      push('wall_plain', i, last, {
+        scale: 0.36,
+        originY: 0.88,
+        flipX: true,
+        depthBias: -5,
+      })
+    }
   }
 
   // Corner + mid-wall towers (reference: red-domed towers all around)
@@ -217,38 +247,28 @@ export function buildCityLayout(size = 24): CitySprite[] {
       if (inPlaza(col, row)) continue
       if (isRoad(col, row)) continue
       if (occupied.has(occupiedKey(col, row))) continue
-      // Leave a light checker so sprites don't fully stack, but stay dense
-      if ((col + row) % 2 === 0) houseCandidates.push({ col, row })
+      houseCandidates.push({ col, row })
     }
   }
 
   houseCandidates.forEach(({ col, row }, idx) => {
-    // Prefer wider houses near palace / denser core
     const nearPalace = col >= 15 && row <= 7
+    // Slight thinning so large sprites don't turn into a solid blob
+    if (!nearPalace && (col * 5 + row * 11) % 7 === 0) {
+      push(STALL_KEYS[idx % STALL_KEYS.length], col, row, {
+        scale: 0.58,
+        originY: 0.88,
+      })
+      return
+    }
+
     const key = nearPalace
       ? HOUSE_KEYS[idx % 2 === 0 ? 3 : idx % 3]
       : HOUSE_KEYS[idx % HOUSE_KEYS.length]
     const scale =
-      key === 'house_wide' ? 0.52 : key === 'house_small' ? 0.68 : 0.54
+      key === 'house_wide' ? 0.5 : key === 'house_small' ? 0.66 : 0.52
     push(key, col, row, { scale, originY: 0.9 })
   })
-
-  // Extra fill on odd cells that still look empty near edges
-  for (let row = 2; row <= last - 2; row += 1) {
-    for (let col = 2; col <= last - 2; col += 1) {
-      if (occupied.has(occupiedKey(col, row))) continue
-      if (inPlaza(col, row) || isRoad(col, row)) continue
-      if ((col + row) % 2 !== 1) continue
-      if ((col * 7 + row * 13) % 5 !== 0) continue
-      const key = STALL_KEYS[(col + row) % STALL_KEYS.length]
-      // Mix small houses into remaining pockets for denser look
-      if ((col + row) % 3 === 0) {
-        push('house_small', col, row, { scale: 0.62, originY: 0.9 })
-      } else {
-        push(key, col, row, { scale: 0.55, originY: 0.88 })
-      }
-    }
-  }
 
   // Banners & lamps along main avenues
   ;[
@@ -289,67 +309,53 @@ export function buildCityLayout(size = 24): CitySprite[] {
     })
   })
 
-  // Cypress trees inside city
+  // Cypress trees inside city — clustered, not in straight orchard rows
   const innerTrees: Array<[number, number]> = [
     [3, 3],
-    [5, 2],
-    [7, 3],
-    [2, 5],
-    [2, 7],
-    [4, 6],
-    [6, 5],
-    [20, 3],
-    [21, 5],
-    [19, 6],
-    [21, 7],
-    [3, 16],
+    [4, 5],
+    [2, 6],
+    [6, 3],
+    [5, 7],
+    [20, 4],
+    [21, 6],
+    [19, 7],
+    [3, 17],
+    [5, 19],
+    [4, 20],
     [2, 18],
-    [4, 19],
-    [5, 17],
-    [6, 20],
-    [18, 17],
-    [20, 16],
-    [21, 18],
-    [19, 20],
+    [19, 18],
+    [21, 17],
+    [20, 20],
     [17, 19],
-    [7, 8],
-    [8, 7],
-    [15, 7],
-    [16, 8],
-    [7, 15],
-    [8, 16],
-    [15, 16],
+    [8, 6],
+    [15, 5],
+    [7, 16],
     [16, 15],
   ]
   innerTrees.forEach(([col, row], i) => {
+    if (occupied.has(occupiedKey(col, row)) && isRoad(col, row)) return
     push(`tree_${i % 4}`, col, row, { scale: 0.68, originY: 0.95, depthBias: 15 })
   })
 
-  // Outer oasis / approach trees (outside walls, like reference dunes edge)
+  // Outer oasis clumps near approaches (reference: sparse palms/cypress outside walls)
   const outerTrees: Array<[number, number]> = [
-    [-1, 8],
-    [-1, 12],
-    [-1, 16],
-    [2, -1],
-    [6, -1],
-    [10, -1],
-    [14, -1],
-    [18, -1],
-    [last + 1, 6],
-    [last + 1, 10],
-    [last + 1, 14],
-    [last + 1, 18],
-    [4, last + 1],
-    [8, last + 1],
-    [15, last + 1],
-    [19, last + 1],
+    [-1, 9],
+    [-2, 11],
+    [-1, 14],
+    [3, -1],
+    [7, -2],
+    [16, -1],
+    [20, -2],
+    [last + 1, 7],
+    [last + 2, 11],
+    [last + 1, 17],
+    [6, last + 1],
     [9, last + 2],
-    [14, last + 2],
-    [-2, 10],
-    [last + 2, 12],
+    [15, last + 1],
+    [18, last + 2],
   ]
   outerTrees.forEach(([col, row], i) => {
-    push(`tree_${i % 4}`, col, row, { scale: 0.72, originY: 0.95, depthBias: 5 })
+    push(`tree_${i % 4}`, col, row, { scale: 0.74, originY: 0.95, depthBias: 5 })
   })
 
   // Approach props outside south gate
