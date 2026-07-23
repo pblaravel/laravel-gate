@@ -1,5 +1,6 @@
-export const TILE_WIDTH = 110
-export const TILE_HEIGHT = 55
+// Match ground tile sprite width (~147px) so perimeter pieces abut correctly.
+export const TILE_WIDTH = 140
+export const TILE_HEIGHT = 70
 
 export type GridPos = {
   col: number

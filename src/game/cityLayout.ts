@@ -9,9 +9,9 @@ export type CitySprite = {
 }
 
 /**
- * Desert city layout.
- * Perimeter uses only `wall_banner` (same length) with overlap so segments join.
- * One south-facing gateway; moderate housing in four quarters.
+ * Desert city matching the modular asset set.
+ * Walls: only `wall_banner`, original facing (N/E native, S/W flipped),
+ * step 2 with enough scale so segments overlap into a solid ring.
  */
 export function buildCityLayout(size = 20): CitySprite[] {
   const items: CitySprite[] = []
@@ -32,65 +32,62 @@ export function buildCityLayout(size = 20): CitySprite[] {
     row === 10 ||
     (row >= last - 3 && col >= 8 && col <= 11)
 
-  // Ground
   for (let row = 0; row < size; row += 1) {
     for (let col = 0; col < size; col += 1) {
       let key = 'tile_a'
       if (inPlaza(col, row)) key = 'mosaic'
       else if (isRoad(col, row)) key = 'tile_b'
       else key = (col + row) % 3 === 0 ? 'tile_c' : 'tile_a'
-      push(key, col, row, { scale: 0.92, originY: 0.5, depthBias: -1000 })
+      push(key, col, row, { scale: 1, originY: 0.5, depthBias: -1000 })
     }
   }
 
-  // Continuous wall ring — place every cell so long wall_banner sprites overlap solidly.
-  const WALL_SCALE = 0.44
-  const WALL_Y = 0.88
+  // Perimeter walls — match original flip rules from the working baseline.
+  // wall_banner is a double-length piece; scale 0.5 + step 2 overlaps ends.
+  const WALL_SCALE = 0.5
+  const WALL_Y = 0.86
 
-  const placeWall = (col: number, row: number, flipX = false, bias = 5) => {
-    push('wall_banner', col, row, {
-      scale: WALL_SCALE,
-      originY: WALL_Y,
-      flipX,
-      depthBias: bias,
-    })
-  }
+  for (let i = 2; i <= last - 2; i += 2) {
+    push('wall_banner', i, 0, { scale: WALL_SCALE, originY: WALL_Y }) // N
+    push('wall_banner', last, i, { scale: WALL_SCALE, originY: WALL_Y }) // E
+    push('wall_banner', 0, i, { scale: WALL_SCALE, originY: WALL_Y, flipX: true }) // W
 
-  // Facing: unflipped wall runs along +col (down-right); flipX runs along +row (down-left).
-  for (let i = 1; i < last; i += 1) {
-    placeWall(i, 0, false) // north (+col)
-    placeWall(last, i, true) // east (+row)
-    placeWall(0, i, true) // west (+row)
-
-    // south (+col) — leave opening for the gateway (cols 8..12)
-    if (i <= 7 || i >= 13) {
-      placeWall(i, last, false)
+    // S — open for gateway around mid
+    if (i <= 6 || i >= 14) {
+      push('wall_banner', i, last, {
+        scale: WALL_SCALE,
+        originY: WALL_Y,
+        flipX: true,
+      })
     }
   }
 
-  // Towers at corners and mid-edge (hide residual seams)
+  // Bridge pieces that meet the gateway
+  push('wall_banner', 6, last, { scale: WALL_SCALE, originY: WALL_Y, flipX: true, depthBias: 8 })
+  push('wall_banner', 14, last, { scale: WALL_SCALE, originY: WALL_Y, flipX: true, depthBias: 8 })
+
   const towers: Array<[string, number, number]> = [
     ['tower_tall', 0, 0],
     ['tower_spiral', last, 0],
     ['tower_mid', 0, last],
     ['tower_short', last, last],
-    ['tower_mid', 5, 0],
+    ['tower_mid', 6, 0],
     ['tower_short', 14, 0],
-    ['tower_spiral', last, 5],
+    ['tower_spiral', last, 6],
     ['tower_mid', last, 14],
-    ['tower_short', 5, last],
+    ['tower_short', 6, last],
     ['tower_tall', 14, last],
-    ['tower_mid', 0, 5],
+    ['tower_mid', 0, 6],
     ['tower_spiral', 0, 14],
   ]
   towers.forEach(([key, col, row]) => {
-    push(key, col, row, { scale: 0.7, originY: 0.92, depthBias: 32 })
+    push(key, col, row, { scale: 0.72, originY: 0.92, depthBias: 30 })
   })
 
-  // Main gateway on the south perimeter, facing the viewer (no flip)
-  push('gateway', mid, last, { scale: 0.5, originY: 0.93, depthBias: 70 })
+  // Gateway on south edge, facing the viewer (asset is already south-facing)
+  push('gateway', mid, last, { scale: 0.4, originY: 0.92, depthBias: 65 })
 
-  // Palace (NE)
+  // Palace NE
   push('house_wide', 14, 3, { scale: 0.68, originY: 0.9, depthBias: 22 })
   push('tower_tall', 15, 2, { scale: 0.76, originY: 0.92, depthBias: 34 })
   push('tower_spiral', 13, 2, { scale: 0.66, originY: 0.92, depthBias: 30 })
@@ -104,7 +101,6 @@ export function buildCityLayout(size = 20): CitySprite[] {
   push('brazier', 11, 9, { scale: 0.52, originY: 0.88 })
   push('brazier', 9, 11, { scale: 0.52, originY: 0.88 })
 
-  // Compact market
   ;[
     ['stall_a', 8, 9, 0.66],
     ['stall_b', 8, 11, 0.66],
@@ -122,20 +118,17 @@ export function buildCityLayout(size = 20): CitySprite[] {
     })
   })
 
-  // Sparse housing — 4 quarters
+  // Sparse housing
   const houses: Array<[string, number, number, number]> = [
     ['house_a', 3, 3, 0.55],
     ['house_small', 5, 4, 0.66],
     ['house_b', 3, 6, 0.54],
-
     ['house_b', 14, 5, 0.54],
     ['house_small', 16, 6, 0.64],
     ['house_a', 15, 7, 0.52],
-
     ['house_a', 3, 12, 0.54],
     ['house_b', 5, 14, 0.52],
     ['house_small', 3, 15, 0.64],
-
     ['house_b', 14, 12, 0.54],
     ['house_a', 16, 14, 0.52],
     ['house_small', 15, 15, 0.64],
