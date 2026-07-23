@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import { ASSET_KEYS, buildCityLayout } from '../cityLayout'
 import { depthFor, isoToScreen } from '../iso'
 
-const MAP_SIZE = 20
-const WORLD_PADDING = 900
+const MAP_SIZE = 24
+const WORLD_PADDING = 1100
 
 export class CityScene extends Phaser.Scene {
   private isDragging = false
@@ -42,7 +42,7 @@ export class CityScene extends Phaser.Scene {
     const offsetY = -minY + WORLD_PADDING
 
     this.cameras.main.setBounds(0, 0, worldW, worldH)
-    this.cameras.main.setBackgroundColor('#c9a46c')
+    this.cameras.main.setBackgroundColor('#d2a86a')
     this.createDesertBackdrop(worldW, worldH)
 
     for (const item of layout) {
@@ -84,33 +84,44 @@ export class CityScene extends Phaser.Scene {
     this.setupCameraControls(worldW, worldH)
 
     const center = isoToScreen(MAP_SIZE / 2, MAP_SIZE / 2, offsetX, offsetY)
-    this.cameras.main.centerOn(center.x, center.y + 80)
-    this.cameras.main.setZoom(0.72)
+    this.cameras.main.centerOn(center.x, center.y + 40)
+    this.cameras.main.setZoom(0.48)
 
     this.tweens.add({
       targets: this.cameras.main,
-      zoom: 0.78,
-      duration: 2200,
+      zoom: 0.56,
+      duration: 2400,
       ease: 'Sine.easeOut',
     })
   }
 
   private createDesertBackdrop(worldW: number, worldH: number) {
     const g = this.add.graphics().setDepth(-20000)
-    g.fillGradientStyle(0xe8c789, 0xe8c789, 0xc4934a, 0xb87d38, 1)
+    g.fillGradientStyle(0xedc98f, 0xe4bd7c, 0xc4934a, 0xb07a36, 1)
     g.fillRect(0, 0, worldW, worldH)
 
-    g.fillStyle(0xd4a85a, 0.35)
-    for (let i = 0; i < 8; i += 1) {
-      const y = worldH * (0.15 + i * 0.1)
-      g.fillEllipse(worldW * (0.2 + (i % 3) * 0.3), y, worldW * 0.55, 120)
+    // Soft dune bands
+    g.fillStyle(0xd9ad63, 0.32)
+    for (let i = 0; i < 12; i += 1) {
+      const y = worldH * (0.12 + i * 0.075)
+      g.fillEllipse(worldW * (0.15 + (i % 4) * 0.22), y, worldW * 0.62, 140)
     }
 
-    g.fillStyle(0x8a6a45, 0.45)
-    const mountainY = worldH * 0.18
-    g.fillTriangle(worldW * 0.05, mountainY + 180, worldW * 0.18, mountainY - 40, worldW * 0.3, mountainY + 180)
-    g.fillTriangle(worldW * 0.25, mountainY + 180, worldW * 0.42, mountainY - 90, worldW * 0.58, mountainY + 180)
-    g.fillTriangle(worldW * 0.55, mountainY + 180, worldW * 0.72, mountainY - 30, worldW * 0.9, mountainY + 180)
+    // Distant rocky ridgeline (reference atmosphere)
+    const mountainY = worldH * 0.16
+    g.fillStyle(0x9a7348, 0.5)
+    g.fillTriangle(worldW * 0.02, mountainY + 210, worldW * 0.14, mountainY - 20, worldW * 0.26, mountainY + 210)
+    g.fillTriangle(worldW * 0.2, mountainY + 210, worldW * 0.36, mountainY - 110, worldW * 0.52, mountainY + 210)
+    g.fillTriangle(worldW * 0.46, mountainY + 210, worldW * 0.62, mountainY - 55, worldW * 0.78, mountainY + 210)
+    g.fillTriangle(worldW * 0.7, mountainY + 210, worldW * 0.84, mountainY - 35, worldW * 0.98, mountainY + 210)
+
+    g.fillStyle(0xb89058, 0.35)
+    g.fillTriangle(worldW * 0.1, mountainY + 210, worldW * 0.22, mountainY + 40, worldW * 0.34, mountainY + 210)
+    g.fillTriangle(worldW * 0.55, mountainY + 210, worldW * 0.68, mountainY + 20, worldW * 0.82, mountainY + 210)
+
+    // Warm haze near horizon
+    g.fillStyle(0xf0d2a0, 0.18)
+    g.fillEllipse(worldW * 0.5, mountainY + 120, worldW * 0.95, 220)
   }
 
   private createDust(worldW: number, worldH: number) {
