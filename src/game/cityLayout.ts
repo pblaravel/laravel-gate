@@ -43,36 +43,30 @@ export function buildCityLayout(size = 20): CitySprite[] {
     }
   }
 
-  // Continuous wall ring — same piece + same step so ends overlap cleanly.
-  // wall_banner is a double-module sprite; step 2 + scale ~0.48 keeps a solid line.
-  const WALL_SCALE = 0.48
+  // Continuous wall ring — place every cell so long wall_banner sprites overlap solidly.
+  const WALL_SCALE = 0.44
   const WALL_Y = 0.88
-  const STEP = 2
 
-  const placeWall = (col: number, row: number, flipX = false) => {
+  const placeWall = (col: number, row: number, flipX = false, bias = 5) => {
     push('wall_banner', col, row, {
       scale: WALL_SCALE,
       originY: WALL_Y,
       flipX,
-      depthBias: 5,
+      depthBias: bias,
     })
   }
 
   // Facing: unflipped wall runs along +col (down-right); flipX runs along +row (down-left).
-  for (let i = 1; i < last; i += STEP) {
+  for (let i = 1; i < last; i += 1) {
     placeWall(i, 0, false) // north (+col)
     placeWall(last, i, true) // east (+row)
     placeWall(0, i, true) // west (+row)
 
     // south (+col) — leave opening for the gateway (cols 8..12)
-    if (i < 8 || i > 12) {
+    if (i <= 7 || i >= 13) {
       placeWall(i, last, false)
     }
   }
-
-  // Extra stubs that meet the gateway towers
-  placeWall(7, last, false)
-  placeWall(13, last, false)
 
   // Towers at corners and mid-edge (hide residual seams)
   const towers: Array<[string, number, number]> = [
