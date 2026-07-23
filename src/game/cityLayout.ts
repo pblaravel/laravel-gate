@@ -37,18 +37,35 @@ export function buildCityLayout(size = 20): CitySprite[] {
     }
   }
 
-  // Straight perimeter — only wall_banner (same length) so ends meet.
+  // Straight perimeter — wall_plain (~2 tiles wide at this scale), not the long
+  // wall_banner double-module which stacks into fake concentric rings.
   // Facing from the original layout: N/E native, S/W flipX.
-  const wallScale = 0.5
+  const wallScale = 0.44
   const wallY = 0.85
   for (let i = 1; i < last; i += 2) {
-    push('wall_banner', i, 0, { scale: wallScale, originY: wallY })
-    push('wall_banner', last, i, { scale: wallScale, originY: wallY })
-    push('wall_banner', 0, i, { scale: wallScale, originY: wallY, flipX: true })
+    push('wall_plain', i, 0, { scale: wallScale, originY: wallY })
+    push('wall_plain', last, i, { scale: wallScale, originY: wallY })
+    push('wall_plain', 0, i, { scale: wallScale, originY: wallY, flipX: true })
 
     // South: skip cells occupied by the gateway
     if (i < 8 || i > 12) {
-      push('wall_banner', i, last, { scale: wallScale, originY: wallY, flipX: true })
+      push('wall_plain', i, last, { scale: wallScale, originY: wallY, flipX: true })
+    }
+  }
+
+  // Occasional banner walls for variety (same footprint family, slightly larger)
+  for (const i of [3, 7, 13, 17]) {
+    if (i >= last) continue
+    push('wall_banner', i, 0, { scale: 0.38, originY: wallY, depthBias: 2 })
+    push('wall_banner', last, i, { scale: 0.38, originY: wallY, depthBias: 2 })
+    push('wall_banner', 0, i, { scale: 0.38, originY: wallY, flipX: true, depthBias: 2 })
+    if (i < 8 || i > 12) {
+      push('wall_banner', i, last, {
+        scale: 0.38,
+        originY: wallY,
+        flipX: true,
+        depthBias: 2,
+      })
     }
   }
 
