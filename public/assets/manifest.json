@@ -1,0 +1,566 @@
+[
+  {
+    "key": "sprite_00",
+    "file": "assets/sprites/sprite_00.png",
+    "w": 612,
+    "h": 379,
+    "bbox": [
+      38,
+      18,
+      643,
+      390
+    ]
+  },
+  {
+    "key": "sprite_01",
+    "file": "assets/sprites/sprite_01.png",
+    "w": 432,
+    "h": 165,
+    "bbox": [
+      706,
+      71,
+      1131,
+      229
+    ]
+  },
+  {
+    "key": "sprite_02",
+    "file": "assets/sprites/sprite_02.png",
+    "w": 252,
+    "h": 144,
+    "bbox": [
+      1182,
+      62,
+      1427,
+      199
+    ]
+  },
+  {
+    "key": "sprite_03",
+    "file": "assets/sprites/sprite_03.png",
+    "w": 249,
+    "h": 171,
+    "bbox": [
+      1167,
+      228,
+      1409,
+      392
+    ]
+  },
+  {
+    "key": "sprite_04",
+    "file": "assets/sprites/sprite_04.png",
+    "w": 209,
+    "h": 160,
+    "bbox": [
+      711,
+      256,
+      913,
+      409
+    ]
+  },
+  {
+    "key": "sprite_05",
+    "file": "assets/sprites/sprite_05.png",
+    "w": 198,
+    "h": 161,
+    "bbox": [
+      937,
+      240,
+      1128,
+      394
+    ]
+  },
+  {
+    "key": "sprite_06",
+    "file": "assets/sprites/sprite_06.png",
+    "w": 122,
+    "h": 208,
+    "bbox": [
+      407,
+      415,
+      522,
+      616
+    ]
+  },
+  {
+    "key": "sprite_07",
+    "file": "assets/sprites/sprite_07.png",
+    "w": 116,
+    "h": 223,
+    "bbox": [
+      538,
+      398,
+      647,
+      614
+    ]
+  },
+  {
+    "key": "sprite_08",
+    "file": "assets/sprites/sprite_08.png",
+    "w": 132,
+    "h": 53,
+    "bbox": [
+      1128,
+      415,
+      1253,
+      461
+    ]
+  },
+  {
+    "key": "sprite_09",
+    "file": "assets/sprites/sprite_09.png",
+    "w": 126,
+    "h": 50,
+    "bbox": [
+      1344,
+      405,
+      1463,
+      448
+    ]
+  },
+  {
+    "key": "sprite_10",
+    "file": "assets/sprites/sprite_10.png",
+    "w": 116,
+    "h": 145,
+    "bbox": [
+      156,
+      476,
+      265,
+      614
+    ]
+  },
+  {
+    "key": "sprite_11",
+    "file": "assets/sprites/sprite_11.png",
+    "w": 109,
+    "h": 190,
+    "bbox": [
+      289,
+      432,
+      391,
+      615
+    ]
+  },
+  {
+    "key": "sprite_12",
+    "file": "assets/sprites/sprite_12.png",
+    "w": 193,
+    "h": 149,
+    "bbox": [
+      888,
+      467,
+      1074,
+      609
+    ]
+  },
+  {
+    "key": "sprite_13",
+    "file": "assets/sprites/sprite_13.png",
+    "w": 129,
+    "h": 53,
+    "bbox": [
+      929,
+      446,
+      1051,
+      492
+    ]
+  },
+  {
+    "key": "sprite_14",
+    "file": "assets/sprites/sprite_14.png",
+    "w": 235,
+    "h": 183,
+    "bbox": [
+      1074,
+      438,
+      1302,
+      614
+    ]
+  },
+  {
+    "key": "sprite_15",
+    "file": "assets/sprites/sprite_15.png",
+    "w": 202,
+    "h": 192,
+    "bbox": [
+      1311,
+      424,
+      1506,
+      609
+    ]
+  },
+  {
+    "key": "sprite_16",
+    "file": "assets/sprites/sprite_16.png",
+    "w": 108,
+    "h": 121,
+    "bbox": [
+      32,
+      502,
+      133,
+      616
+    ]
+  },
+  {
+    "key": "sprite_17",
+    "file": "assets/sprites/sprite_17.png",
+    "w": 183,
+    "h": 111,
+    "bbox": [
+      700,
+      508,
+      876,
+      612
+    ]
+  },
+  {
+    "key": "sprite_18",
+    "file": "assets/sprites/sprite_18.png",
+    "w": 116,
+    "h": 55,
+    "bbox": [
+      743,
+      489,
+      852,
+      537
+    ]
+  },
+  {
+    "key": "sprite_19",
+    "file": "assets/sprites/sprite_19.png",
+    "w": 156,
+    "h": 147,
+    "bbox": [
+      176,
+      653,
+      325,
+      793
+    ]
+  },
+  {
+    "key": "sprite_20",
+    "file": "assets/sprites/sprite_20.png",
+    "w": 157,
+    "h": 141,
+    "bbox": [
+      332,
+      655,
+      482,
+      789
+    ]
+  },
+  {
+    "key": "sprite_21",
+    "file": "assets/sprites/sprite_21.png",
+    "w": 48,
+    "h": 143,
+    "bbox": [
+      522,
+      650,
+      563,
+      786
+    ]
+  },
+  {
+    "key": "sprite_22",
+    "file": "assets/sprites/sprite_22.png",
+    "w": 50,
+    "h": 153,
+    "bbox": [
+      591,
+      641,
+      634,
+      787
+    ]
+  },
+  {
+    "key": "sprite_23",
+    "file": "assets/sprites/sprite_23.png",
+    "w": 50,
+    "h": 156,
+    "bbox": [
+      651,
+      639,
+      694,
+      788
+    ]
+  },
+  {
+    "key": "sprite_24",
+    "file": "assets/sprites/sprite_24.png",
+    "w": 51,
+    "h": 147,
+    "bbox": [
+      793,
+      651,
+      837,
+      791
+    ]
+  },
+  {
+    "key": "sprite_25",
+    "file": "assets/sprites/sprite_25.png",
+    "w": 164,
+    "h": 140,
+    "bbox": [
+      16,
+      660,
+      173,
+      793
+    ]
+  },
+  {
+    "key": "sprite_26",
+    "file": "assets/sprites/sprite_26.png",
+    "w": 47,
+    "h": 132,
+    "bbox": [
+      724,
+      664,
+      764,
+      789
+    ]
+  },
+  {
+    "key": "sprite_27",
+    "file": "assets/sprites/sprite_27.png",
+    "w": 61,
+    "h": 134,
+    "bbox": [
+      926,
+      665,
+      980,
+      792
+    ]
+  },
+  {
+    "key": "sprite_28",
+    "file": "assets/sprites/sprite_28.png",
+    "w": 66,
+    "h": 114,
+    "bbox": [
+      990,
+      676,
+      1049,
+      783
+    ]
+  },
+  {
+    "key": "sprite_29",
+    "file": "assets/sprites/sprite_29.png",
+    "w": 217,
+    "h": 113,
+    "bbox": [
+      1074,
+      676,
+      1284,
+      782
+    ]
+  },
+  {
+    "key": "sprite_30",
+    "file": "assets/sprites/sprite_30.png",
+    "w": 67,
+    "h": 76,
+    "bbox": [
+      1302,
+      704,
+      1362,
+      773
+    ]
+  },
+  {
+    "key": "sprite_31",
+    "file": "assets/sprites/sprite_31.png",
+    "w": 113,
+    "h": 92,
+    "bbox": [
+      1364,
+      696,
+      1470,
+      781
+    ]
+  },
+  {
+    "key": "sprite_32",
+    "file": "assets/sprites/sprite_32.png",
+    "w": 62,
+    "h": 75,
+    "bbox": [
+      857,
+      725,
+      912,
+      793
+    ]
+  },
+  {
+    "key": "sprite_33",
+    "file": "assets/sprites/sprite_33.png",
+    "w": 52,
+    "h": 55,
+    "bbox": [
+      1459,
+      731,
+      1504,
+      779
+    ]
+  },
+  {
+    "key": "sprite_34",
+    "file": "assets/sprites/sprite_34.png",
+    "w": 170,
+    "h": 166,
+    "bbox": [
+      168,
+      825,
+      331,
+      984
+    ]
+  },
+  {
+    "key": "sprite_35",
+    "file": "assets/sprites/sprite_35.png",
+    "w": 65,
+    "h": 162,
+    "bbox": [
+      599,
+      821,
+      657,
+      976
+    ]
+  },
+  {
+    "key": "sprite_36",
+    "file": "assets/sprites/sprite_36.png",
+    "w": 70,
+    "h": 173,
+    "bbox": [
+      664,
+      809,
+      727,
+      975
+    ]
+  },
+  {
+    "key": "sprite_37",
+    "file": "assets/sprites/sprite_37.png",
+    "w": 62,
+    "h": 156,
+    "bbox": [
+      735,
+      826,
+      790,
+      975
+    ]
+  },
+  {
+    "key": "sprite_38",
+    "file": "assets/sprites/sprite_38.png",
+    "w": 122,
+    "h": 142,
+    "bbox": [
+      25,
+      840,
+      140,
+      975
+    ]
+  },
+  {
+    "key": "sprite_39",
+    "file": "assets/sprites/sprite_39.png",
+    "w": 197,
+    "h": 113,
+    "bbox": [
+      370,
+      880,
+      560,
+      986
+    ]
+  },
+  {
+    "key": "sprite_40",
+    "file": "assets/sprites/sprite_40.png",
+    "w": 76,
+    "h": 38,
+    "bbox": [
+      437,
+      866,
+      506,
+      897
+    ]
+  },
+  {
+    "key": "sprite_41",
+    "file": "assets/sprites/sprite_41.png",
+    "w": 63,
+    "h": 137,
+    "bbox": [
+      798,
+      844,
+      854,
+      974
+    ]
+  },
+  {
+    "key": "sprite_42",
+    "file": "assets/sprites/sprite_42.png",
+    "w": 127,
+    "h": 118,
+    "bbox": [
+      888,
+      862,
+      1008,
+      973
+    ]
+  },
+  {
+    "key": "sprite_43",
+    "file": "assets/sprites/sprite_43.png",
+    "w": 39,
+    "h": 31,
+    "bbox": [
+      977,
+      862,
+      1009,
+      886
+    ]
+  },
+  {
+    "key": "sprite_44",
+    "file": "assets/sprites/sprite_44.png",
+    "w": 141,
+    "h": 118,
+    "bbox": [
+      1039,
+      862,
+      1173,
+      973
+    ]
+  },
+  {
+    "key": "sprite_45",
+    "file": "assets/sprites/sprite_45.png",
+    "w": 123,
+    "h": 118,
+    "bbox": [
+      1202,
+      862,
+      1318,
+      973
+    ]
+  },
+  {
+    "key": "sprite_46",
+    "file": "assets/sprites/sprite_46.png",
+    "w": 171,
+    "h": 133,
+    "bbox": [
+      1341,
+      856,
+      1505,
+      982
+    ]
+  }
+]
