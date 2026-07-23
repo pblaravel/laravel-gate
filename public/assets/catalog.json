@@ -1,0 +1,557 @@
+{
+  "assets": [
+    {
+      "key": "gateway",
+      "file": "assets/sprites/gateway.png",
+      "w": 407,
+      "h": 362,
+      "bbox": [
+        20,
+        5,
+        420,
+        360
+      ]
+    },
+    {
+      "key": "wall_banner",
+      "file": "assets/sprites/wall_banner.png",
+      "w": 447,
+      "h": 197,
+      "bbox": [
+        700,
+        40,
+        1140,
+        230
+      ]
+    },
+    {
+      "key": "wall_plain",
+      "file": "assets/sprites/wall_plain.png",
+      "w": 272,
+      "h": 167,
+      "bbox": [
+        1170,
+        45,
+        1435,
+        205
+      ]
+    },
+    {
+      "key": "wall_corner",
+      "file": "assets/sprites/wall_corner.png",
+      "w": 212,
+      "h": 187,
+      "bbox": [
+        930,
+        220,
+        1135,
+        400
+      ]
+    },
+    {
+      "key": "gate_small_a",
+      "file": "assets/sprites/gate_small_a.png",
+      "w": 262,
+      "h": 197,
+      "bbox": [
+        1160,
+        210,
+        1415,
+        400
+      ]
+    },
+    {
+      "key": "gate_small_b",
+      "file": "assets/sprites/gate_small_b.png",
+      "w": 227,
+      "h": 177,
+      "bbox": [
+        700,
+        245,
+        920,
+        415
+      ]
+    },
+    {
+      "key": "tower_tall",
+      "file": "assets/sprites/tower_tall.png",
+      "w": 137,
+      "h": 232,
+      "bbox": [
+        400,
+        395,
+        530,
+        620
+      ]
+    },
+    {
+      "key": "house_wide",
+      "file": "assets/sprites/house_wide.png",
+      "w": 227,
+      "h": 232,
+      "bbox": [
+        1295,
+        390,
+        1515,
+        615
+      ]
+    },
+    {
+      "key": "tower_mid",
+      "file": "assets/sprites/tower_mid.png",
+      "w": 132,
+      "h": 172,
+      "bbox": [
+        150,
+        455,
+        275,
+        620
+      ]
+    },
+    {
+      "key": "tower_spiral",
+      "file": "assets/sprites/tower_spiral.png",
+      "w": 132,
+      "h": 212,
+      "bbox": [
+        275,
+        415,
+        400,
+        620
+      ]
+    },
+    {
+      "key": "houses_pair",
+      "file": "assets/sprites/houses_pair.png",
+      "w": 442,
+      "h": 222,
+      "bbox": [
+        875,
+        405,
+        1310,
+        620
+      ]
+    },
+    {
+      "key": "tower_short",
+      "file": "assets/sprites/tower_short.png",
+      "w": 132,
+      "h": 142,
+      "bbox": [
+        20,
+        485,
+        145,
+        620
+      ]
+    },
+    {
+      "key": "house_small",
+      "file": "assets/sprites/house_small.png",
+      "w": 202,
+      "h": 152,
+      "bbox": [
+        690,
+        475,
+        885,
+        620
+      ]
+    },
+    {
+      "key": "banner_a",
+      "file": "assets/sprites/banner_a.png",
+      "w": 67,
+      "h": 177,
+      "bbox": [
+        510,
+        625,
+        570,
+        795
+      ]
+    },
+    {
+      "key": "banner_b",
+      "file": "assets/sprites/banner_b.png",
+      "w": 72,
+      "h": 177,
+      "bbox": [
+        575,
+        625,
+        640,
+        795
+      ]
+    },
+    {
+      "key": "banner_c",
+      "file": "assets/sprites/banner_c.png",
+      "w": 67,
+      "h": 182,
+      "bbox": [
+        640,
+        620,
+        700,
+        795
+      ]
+    },
+    {
+      "key": "banner_d",
+      "file": "assets/sprites/banner_d.png",
+      "w": 72,
+      "h": 177,
+      "bbox": [
+        710,
+        625,
+        775,
+        795
+      ]
+    },
+    {
+      "key": "stall_a",
+      "file": "assets/sprites/stall_a.png",
+      "w": 187,
+      "h": 157,
+      "bbox": [
+        5,
+        650,
+        185,
+        800
+      ]
+    },
+    {
+      "key": "stall_b",
+      "file": "assets/sprites/stall_b.png",
+      "w": 177,
+      "h": 162,
+      "bbox": [
+        165,
+        645,
+        335,
+        800
+      ]
+    },
+    {
+      "key": "stall_c",
+      "file": "assets/sprites/stall_c.png",
+      "w": 182,
+      "h": 157,
+      "bbox": [
+        320,
+        645,
+        495,
+        795
+      ]
+    },
+    {
+      "key": "lamp_a",
+      "file": "assets/sprites/lamp_a.png",
+      "w": 87,
+      "h": 167,
+      "bbox": [
+        775,
+        640,
+        855,
+        800
+      ]
+    },
+    {
+      "key": "lamp_b",
+      "file": "assets/sprites/lamp_b.png",
+      "w": 82,
+      "h": 167,
+      "bbox": [
+        845,
+        640,
+        920,
+        800
+      ]
+    },
+    {
+      "key": "lamp_c",
+      "file": "assets/sprites/lamp_c.png",
+      "w": 82,
+      "h": 167,
+      "bbox": [
+        915,
+        640,
+        990,
+        800
+      ]
+    },
+    {
+      "key": "lamp_d",
+      "file": "assets/sprites/lamp_d.png",
+      "w": 82,
+      "h": 142,
+      "bbox": [
+        980,
+        655,
+        1055,
+        790
+      ]
+    },
+    {
+      "key": "barrels",
+      "file": "assets/sprites/barrels.png",
+      "w": 237,
+      "h": 132,
+      "bbox": [
+        1065,
+        665,
+        1295,
+        790
+      ]
+    },
+    {
+      "key": "crates",
+      "file": "assets/sprites/crates.png",
+      "w": 187,
+      "h": 122,
+      "bbox": [
+        1295,
+        675,
+        1475,
+        790
+      ]
+    },
+    {
+      "key": "pottery",
+      "file": "assets/sprites/pottery.png",
+      "w": 67,
+      "h": 77,
+      "bbox": [
+        1450,
+        720,
+        1510,
+        790
+      ]
+    },
+    {
+      "key": "brazier",
+      "file": "assets/sprites/brazier.png",
+      "w": 142,
+      "h": 172,
+      "bbox": [
+        15,
+        820,
+        150,
+        985
+      ]
+    },
+    {
+      "key": "well",
+      "file": "assets/sprites/well.png",
+      "w": 192,
+      "h": 182,
+      "bbox": [
+        155,
+        815,
+        340,
+        990
+      ]
+    },
+    {
+      "key": "fountain",
+      "file": "assets/sprites/fountain.png",
+      "w": 217,
+      "h": 182,
+      "bbox": [
+        360,
+        820,
+        570,
+        995
+      ]
+    },
+    {
+      "key": "trees",
+      "file": "assets/sprites/trees.png",
+      "w": 282,
+      "h": 197,
+      "bbox": [
+        590,
+        795,
+        865,
+        985
+      ]
+    },
+    {
+      "key": "tile_a",
+      "file": "assets/sprites/tile_a.png",
+      "w": 147,
+      "h": 137,
+      "bbox": [
+        880,
+        850,
+        1020,
+        980
+      ]
+    },
+    {
+      "key": "tile_b",
+      "file": "assets/sprites/tile_b.png",
+      "w": 157,
+      "h": 137,
+      "bbox": [
+        1030,
+        850,
+        1180,
+        980
+      ]
+    },
+    {
+      "key": "tile_c",
+      "file": "assets/sprites/tile_c.png",
+      "w": 137,
+      "h": 137,
+      "bbox": [
+        1195,
+        850,
+        1325,
+        980
+      ]
+    },
+    {
+      "key": "mosaic",
+      "file": "assets/sprites/mosaic.png",
+      "w": 187,
+      "h": 152,
+      "bbox": [
+        1335,
+        845,
+        1515,
+        990
+      ]
+    },
+    {
+      "key": "house_a",
+      "file": "assets/sprites/house_a.png",
+      "w": 244,
+      "h": 222,
+      "bbox": [
+        875,
+        405,
+        1112,
+        620
+      ]
+    },
+    {
+      "key": "house_b",
+      "file": "assets/sprites/house_b.png",
+      "w": 245,
+      "h": 222,
+      "bbox": [
+        1072,
+        405,
+        1310,
+        620
+      ]
+    },
+    {
+      "key": "tree_0",
+      "file": "assets/sprites/tree_0.png",
+      "w": 75,
+      "h": 197,
+      "bbox": [
+        590,
+        795,
+        658,
+        985
+      ]
+    },
+    {
+      "key": "tree_1",
+      "file": "assets/sprites/tree_1.png",
+      "w": 75,
+      "h": 197,
+      "bbox": [
+        658,
+        795,
+        726,
+        985
+      ]
+    },
+    {
+      "key": "tree_2",
+      "file": "assets/sprites/tree_2.png",
+      "w": 75,
+      "h": 197,
+      "bbox": [
+        726,
+        795,
+        794,
+        985
+      ]
+    },
+    {
+      "key": "tree_3",
+      "file": "assets/sprites/tree_3.png",
+      "w": 75,
+      "h": 197,
+      "bbox": [
+        794,
+        795,
+        862,
+        985
+      ]
+    }
+  ],
+  "roles": {
+    "gateway": "gateway",
+    "walls": [
+      "wall_banner",
+      "wall_plain",
+      "wall_corner"
+    ],
+    "gates": [
+      "gate_small_a",
+      "gate_small_b"
+    ],
+    "towers": [
+      "tower_tall",
+      "tower_mid",
+      "tower_spiral",
+      "tower_short"
+    ],
+    "houses": [
+      "house_a",
+      "house_b",
+      "house_wide",
+      "house_small"
+    ],
+    "stalls": [
+      "stall_a",
+      "stall_b",
+      "stall_c"
+    ],
+    "banners": [
+      "banner_a",
+      "banner_b",
+      "banner_c",
+      "banner_d"
+    ],
+    "lamps": [
+      "lamp_a",
+      "lamp_b",
+      "lamp_c",
+      "lamp_d"
+    ],
+    "props": [
+      "barrels",
+      "crates",
+      "pottery",
+      "brazier",
+      "well",
+      "fountain"
+    ],
+    "trees": [
+      "tree_0",
+      "tree_1",
+      "tree_2",
+      "tree_3"
+    ],
+    "tiles": [
+      "tile_a",
+      "tile_b",
+      "tile_c",
+      "mosaic"
+    ]
+  }
+}
